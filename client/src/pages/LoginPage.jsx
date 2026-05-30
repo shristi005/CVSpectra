@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { supabase } from '../utils/supabase'
+import { useIsMobile } from '../utils/useIsMobile'
 
 function LoginPage({ onLogin }) {
+    const isMobile = useIsMobile()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -59,7 +61,10 @@ function LoginPage({ onLogin }) {
 
     return (
         <div style={styles.container}>
-            <div style={styles.card}>
+            <div style={{
+                ...styles.card,
+                padding: isMobile ? '32px 20px' : '48px 40px',
+            }}>
                 {/* Logo */}
                 <div style={styles.logo}>
                     <span style={{
@@ -173,7 +178,7 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center',
         background: 'linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%)',
-        padding: '24px',
+        padding: '16px',
     },
     card: {
         background: '#ffffff',

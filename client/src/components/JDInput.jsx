@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import mammoth from 'mammoth'
+import { useIsMobile } from '../utils/useIsMobile'
 
 function JDInput({ jd, setJd }) {
+    const isMobile = useIsMobile()
     const [mode, setMode] = useState('text') // 'text' | 'file'
     const [fileName, setFileName] = useState('')
 
@@ -62,7 +64,10 @@ function JDInput({ jd, setJd }) {
             {/* Text mode */}
             {mode === 'text' && (
                 <textarea
-                    style={styles.textarea}
+                    style={{
+                        ...styles.textarea,
+                        height: isMobile ? '120px' : '180px'
+                    }}
                     placeholder="Paste the job description here...
 
 Example:
@@ -131,39 +136,39 @@ const styles = {
         height: '180px',
         padding: '12px',
         borderRadius: '10px',
-        border: '1px solid #ddd',
+        border: '1px solid var(--border)',
         fontSize: '13px',
         resize: 'vertical',
         lineHeight: '1.6',
-        color: '#333',
-        background: '#fafafa',
+        color: 'var(--text-primary)',
+        background: 'var(--bg-secondary)',
     },
     fileZone: {
-        border: '2px dashed #d1d5db',
+        border: '2px dashed var(--border)',
         borderRadius: '10px',
         padding: '28px',
         textAlign: 'center',
         cursor: 'pointer',
-        background: '#fafafa',
+        background: 'var(--bg-secondary)',
     },
     fileZoneText: {
         fontSize: '13px',
-        color: '#555',
+        color: 'var(--text-secondary)',
     },
     preview: {
         marginTop: '10px',
-        background: '#f1f5f9',
+        background: 'var(--bg-secondary)',
         borderRadius: '8px',
         padding: '10px 12px',
     },
     previewLabel: {
         fontSize: '11px',
-        color: '#888',
+        color: 'var(--text-muted)',
         marginBottom: '4px',
     },
     previewText: {
         fontSize: '12px',
-        color: '#444',
+        color: 'var(--text-secondary)',
         lineHeight: '1.5',
     },
     charCount: {

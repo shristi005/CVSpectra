@@ -84,13 +84,14 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '24px',
+        padding: '16px',  // ← reduced for mobile
     },
     card: {
-        background: '#fff',
+        background: 'var(--card-bg)',
         borderRadius: '20px',
-        padding: '48px 56px',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.1)',
+        padding: '40px 32px',  // ← reduced from 48px 56px
+        boxShadow: 'var(--card-shadow)',
+        border: '1px solid var(--border)',
         textAlign: 'center',
         maxWidth: '480px',
         width: '100%',
@@ -103,8 +104,8 @@ const styles = {
     spinner: {
         width: '52px',
         height: '52px',
-        border: '4px solid #e5e7eb',
-        borderTopColor: '#2563eb',
+        border: '4px solid var(--border)',
+        borderTopColor: '#4f6ef7',
         borderRadius: '50%',
         animation: 'spin 0.8s linear infinite',
     },
@@ -112,10 +113,11 @@ const styles = {
         fontSize: '22px',
         fontWeight: '700',
         marginBottom: '8px',
+        color: 'var(--text-primary)',
     },
     sub: {
         fontSize: '14px',
-        color: '#666',
+        color: 'var(--text-secondary)',
         marginBottom: '32px',
     },
     steps: {
@@ -137,6 +139,7 @@ const styles = {
     },
     stepText: {
         fontSize: '14px',
+        color: 'var(--text-secondary)',
     },
 }
 

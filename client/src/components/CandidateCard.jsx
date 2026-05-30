@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import mammoth from 'mammoth'
+import { useIsMobile } from '../utils/useIsMobile'
 
 function CandidateCard({ candidate, file }) {
+
+    const isMobile = useIsMobile()
 
     const [expanded, setExpanded] = useState(false)
 
@@ -40,7 +43,10 @@ function CandidateCard({ candidate, file }) {
     }
 
     return (
-        <div style={styles.card}>
+        <div style={{
+            ...styles.card,
+            padding: isMobile ? '12px 14px' : '16px 20px'  // ← less padding on mobile
+        }}>
             {/* Top row */}
             <div style={styles.topRow} onClick={() => setExpanded(!expanded)}>
 
@@ -51,7 +57,10 @@ function CandidateCard({ candidate, file }) {
                         <span style={styles.rankNum}>{rank}</span>
                     </div>
 
-                    <div style={styles.avatar}>{initials}</div>
+                    <div style={{
+                        ...styles.avatar,
+                        display: isMobile ? 'none' : 'flex'  // ← hide on mobile
+                    }}>{initials}</div>
 
                     <div>
                         <div style={styles.name}>{name}</div>
@@ -100,7 +109,10 @@ function CandidateCard({ candidate, file }) {
             {/* Expanded detail */}
             {expanded && (
                 <div style={styles.detail}>
-                    <div style={styles.detailGrid}>
+                    <div style={{
+                        ...styles.detailGrid,
+                        gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr'
+                    }}>
                         <div>
                             <div style={styles.detailLabel}>✅ Matching Skills</div>
                             <div style={styles.chipWrap}>
@@ -133,7 +145,12 @@ function CandidateCard({ candidate, file }) {
             )}
             {previewOpen && (
                 <div style={styles.modalOverlay} onClick={() => setPreviewOpen(false)}>
-                    <div style={styles.modalBox} onClick={e => e.stopPropagation()}>
+                    <div style={{
+                        ...styles.modalBox,
+                        width: isMobile ? '100%' : '90%',
+                        height: isMobile ? '100vh' : '85vh',
+                        borderRadius: isMobile ? '0' : '16px',
+                    }} onClick={e => e.stopPropagation()}>
 
                         {/* Modal header */}
                         <div style={styles.modalHeader}>
@@ -171,10 +188,11 @@ function CandidateCard({ candidate, file }) {
 
 const styles = {
     card: {
-        background: '#fff',
+        background: 'var(--card-bg)',
         borderRadius: '14px',
         padding: '16px 20px',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+        boxShadow: 'var(--card-shadow)',
+        border: '1px solid var(--border)',
     },
     topRow: {
         display: 'flex',
@@ -219,7 +237,7 @@ const styles = {
     name: {
         fontSize: '15px',
         fontWeight: '600',
-        color: '#1a1a2e',
+        color: 'var(--text-primary)',
     },
     filename: {
         fontSize: '12px',
@@ -312,7 +330,7 @@ const styles = {
     detailLabel: {
         fontSize: '12px',
         fontWeight: '600',
-        color: '#555',
+        color: 'var(--text-secondary)',
         marginBottom: '8px',
     },
     chipWrap: {
@@ -326,7 +344,7 @@ const styles = {
     },
     detailVal: {
         fontSize: '13px',
-        color: '#444',
+        color: 'var(--text-secondary)',
         lineHeight: '1.5',
     },
     modalOverlay: {

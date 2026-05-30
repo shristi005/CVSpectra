@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import UploadZone from '../components/UploadZone'
 import JDInput from '../components/JDInput'
+import { useIsMobile } from '../utils/useIsMobile'
 
 function UploadPage({ onStartScreening }) {
+    const isMobile = useIsMobile()
     const [resumes, setResumes] = useState([])
     const [jd, setJd] = useState('')
 
@@ -13,10 +15,15 @@ function UploadPage({ onStartScreening }) {
     }
 
     return (
-        <div style={styles.container}>
-
-            {/* Main content */}
-            <div style={styles.grid}>
+        <div style={{
+            ...styles.container,
+            padding: isMobile ? '16px' : '32px 28px',
+        }}>
+            <div style={{
+                ...styles.grid,
+                gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+                gap: isMobile ? '16px' : '24px',
+            }}>
                 <div style={styles.card}>
                     <h2 style={styles.cardTitle}>📁 Upload Resumes</h2>
                     <p style={styles.cardSub}>PDF, DOC, DOCX supported · Multiple files allowed</p>
@@ -36,7 +43,9 @@ function UploadPage({ onStartScreening }) {
                     style={{
                         ...styles.btn,
                         opacity: canStart ? 1 : 0.5,
-                        cursor: canStart ? 'pointer' : 'not-allowed'
+                        cursor: canStart ? 'pointer' : 'not-allowed',
+                        width: isMobile ? '100%' : 'auto',  // ← full width on mobile
+                        padding: isMobile ? '14px 20px' : '14px 40px',
                     }}
                     disabled={!canStart}
                     onClick={handleStart}

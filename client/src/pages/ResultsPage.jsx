@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import CandidateCard from '../components/CandidateCard'
 import Papa from 'papaparse'
+import { useIsMobile } from '../utils/useIsMobile'
 
 function ResultsPage({ candidates, files, onReset }) {
+    const isMobile = useIsMobile()
     const [search, setSearch] = useState('')
     const [sortOrder, setSortOrder] = useState('desc')
     const [selectedCandidate, setSelectedCandidate] = useState(null)
@@ -42,7 +44,10 @@ function ResultsPage({ candidates, files, onReset }) {
     const strongMatches = candidates.filter(c => c.score >= 70).length
 
     return (
-        <div style={styles.container}>
+        <div style={{
+            ...styles.container,
+            padding: isMobile ? '16px' : '32px 28px',
+        }}>
             {/* Header */}
             <div style={styles.header}>
                 <div>
@@ -53,7 +58,11 @@ function ResultsPage({ candidates, files, onReset }) {
             </div>
 
             {/* Stats */}
-            <div style={styles.statsRow}>
+            <div style={{
+                ...styles.statsRow,
+                gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)',
+                gap: isMobile ? '10px' : '16px',
+            }}>
                 <div style={styles.statCard}>
                     <div style={styles.statVal}>{candidates.length}</div>
                     <div style={styles.statLbl}>Total Candidates</div>
@@ -73,7 +82,10 @@ function ResultsPage({ candidates, files, onReset }) {
             </div>
 
             {/* Controls */}
-            <div style={styles.controls}>
+            <div style={{
+                ...styles.controls,
+                flexDirection: isMobile ? 'column' : 'row',
+            }}>
                 <input
                     style={styles.search}
                     placeholder="🔍 Search candidates..."
@@ -124,7 +136,10 @@ function ResultsPage({ candidates, files, onReset }) {
 
             {/* Slide-in panel */}
             {selectedCandidate && (
-                <div style={styles.panel}>
+                <div style={{
+                    ...styles.panel,
+                    width: isMobile ? '100vw' : '420px',
+                }}>
                     {/* Panel header */}
                     <div style={styles.panelHeader}>
                         <div style={styles.panelAvatar}>
@@ -243,12 +258,12 @@ const styles = {
         border: '1px solid var(--border)',
     },
     statVal: {
-        fontSize: '28px',
+        fontSize: '22px',
         fontWeight: '700',
         color: 'var(--text-primary)',
     },
     statLbl: {
-        fontSize: '12px',
+        fontSize: '11px',
         color: 'var(--text-secondary)',
         marginTop: '4px',
     },

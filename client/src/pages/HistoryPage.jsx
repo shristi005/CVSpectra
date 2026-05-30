@@ -95,7 +95,7 @@ const styles = {
     container: {
         maxWidth: '900px',
         margin: '0 auto',
-        padding: '40px 24px',
+        padding: '24px 16px',  // ← reduced for mobile
     },
     header: {
         display: 'flex',
@@ -104,22 +104,14 @@ const styles = {
         marginBottom: '28px',
     },
     title: {
-        fontSize: '26px',
+        fontSize: '22px',
         fontWeight: '700',
+        color: 'var(--text-primary)',
     },
     sub: {
         fontSize: '14px',
-        color: '#666',
+        color: 'var(--text-secondary)',
         marginTop: '4px',
-    },
-    backBtn: {
-        background: 'none',
-        border: '1px solid #ddd',
-        borderRadius: '8px',
-        padding: '8px 16px',
-        fontSize: '14px',
-        color: '#444',
-        cursor: 'pointer',
     },
     list: {
         display: 'flex',
@@ -127,27 +119,28 @@ const styles = {
         gap: '12px',
     },
     card: {
-        background: '#fff',
+        background: 'var(--card-bg)',
         borderRadius: '14px',
-        padding: '20px 24px',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+        padding: '16px 20px',
+        boxShadow: 'var(--card-shadow)',
+        border: '1px solid var(--border)',
         cursor: 'pointer',
-        transition: 'box-shadow 0.2s',
     },
     cardTop: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
         marginBottom: '12px',
+        gap: '12px',
     },
     cardDate: {
-        fontSize: '13px',
-        color: '#888',
+        fontSize: '12px',
+        color: 'var(--text-muted)',
         marginBottom: '4px',
     },
     cardJD: {
-        fontSize: '14px',
-        color: '#333',
+        fontSize: '13px',
+        color: 'var(--text-primary)',
         maxWidth: '580px',
     },
     cardRight: {
@@ -156,7 +149,7 @@ const styles = {
     },
     candidateCount: {
         fontSize: '13px',
-        color: '#2563eb',
+        color: '#4f6ef7',
         fontWeight: '600',
     },
     topScore: {
@@ -170,19 +163,19 @@ const styles = {
         flexWrap: 'wrap',
     },
     previewChip: {
-        background: '#f1f5f9',
+        background: 'var(--bg-secondary)',
+        border: '1px solid var(--border)',
         borderRadius: '100px',
         padding: '4px 10px',
         fontSize: '12px',
-        color: '#444',
+        color: 'var(--text-secondary)',
     },
     empty: {
         textAlign: 'center',
-        color: '#aaa',
+        color: 'var(--text-muted)',
         padding: '60px',
         fontSize: '15px',
     },
-
 }
 
 export default HistoryPage

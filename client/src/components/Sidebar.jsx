@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useIsMobile } from '../utils/useIsMobile'
 
 function Sidebar({ page, setPage, darkMode, setDarkMode, user, onLogout }) {
 
@@ -6,85 +7,114 @@ function Sidebar({ page, setPage, darkMode, setDarkMode, user, onLogout }) {
         { id: 'upload', label: 'New Screening', icon: '✦' },
         { id: 'history', label: 'History', icon: '🕓' },
     ]
+    const isMobile = useIsMobile()
+    const [menuOpen, setMenuOpen] = useState(false)
     const [showLogout, setShowLogout] = useState(false)
 
     return (
-        <div style={styles.sidebar}>
-            {/* Logo */}
-            <div style={styles.logoWrap}>
-                <span style={{
-                    fontSize: '22px',
-                    fontWeight: '900',
-                    background: 'linear-gradient(135deg, #4fc3f7, #7c4dff)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    letterSpacing: '-1px',
-                }}>CV</span>
-                <span style={{
-                    fontSize: '16px',
-                    fontWeight: '700',
-                    color: 'var(--text-primary)',
-                }}>Spectra</span>
-            </div>
+        <>
+            {/* Mobile hamburger button */}
+            {isMobile && (
+                <button
+                    style={styles.hamburger}
+                    onClick={() => setMenuOpen(!menuOpen)}
+                >
+                    {menuOpen ? '✕' : '☰'}
+                </button>
+            )}
 
-            {/* Nav items */}
-            <nav style={styles.nav}>
-                {navItems.map(item => (
-                    <div
-                        key={item.id}
-                        style={{
-                            ...styles.navItem,
-                            background: page === item.id ? 'var(--accent)' : 'transparent',
-                            color: page === item.id ? '#fff' : 'var(--text-secondary)',
-                        }}
-                        onClick={() => setPage(item.id)}
-                    >
-                        <span style={styles.navIcon}>{item.icon}</span>
-                        <span>{item.label}</span>
-                    </div>
-                ))}
-            </nav>
+            {/* Mobile overlay */}
+            {isMobile && menuOpen && (
+                <div
+                    style={styles.overlay}
+                    onClick={() => setMenuOpen(false)}
+                />
+            )}
 
-            {/* Bottom section */}
-            <div style={styles.bottom}>
-                {/* Dark mode toggle */}
-                <div style={styles.darkToggle} onClick={() => setDarkMode(!darkMode)}>
-                    <span>{darkMode ? '☀️ Light mode' : '🌙 Dark mode'}</span>
-                    <div style={{
-                        ...styles.toggleTrack,
-                        background: darkMode ? '#4f6ef7' : '#e5e7eb'
-                    }}>
+            {/* Sidebar */}
+            <div style={{
+                ...styles.sidebar,
+                transform: isMobile
+                    ? menuOpen ? 'translateX(0)' : 'translateX(-100%)'
+                    : 'translateX(0)',
+                transition: 'transform 0.3s ease',
+            }}>
+                {/* Logo */}
+                <div style={styles.logoWrap}>
+                    <span style={{
+                        fontSize: '22px',
+                        fontWeight: '900',
+                        background: 'linear-gradient(135deg, #4fc3f7, #7c4dff)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        letterSpacing: '-1px',
+                    }}>CV</span>
+                    <span style={{
+                        fontSize: '16px',
+                        fontWeight: '700',
+                        color: 'var(--text-primary)',
+                    }}>Spectra</span>
+                </div>
+
+                {/* Nav items */}
+                <nav style={styles.nav}>
+                    {navItems.map(item => (
+                        <div
+                            key={item.id}
+                            style={{
+                                ...styles.navItem,
+                                background: page === item.id ? 'var(--accent)' : 'transparent',
+                                color: page === item.id ? '#fff' : 'var(--text-secondary)',
+                            }}
+                            onClick={() => {
+                                setPage(item.id)
+                                setMenuOpen(false) // close menu on mobile after click
+                            }}
+                        >
+                            <span style={styles.navIcon}>{item.icon}</span>
+                            <span>{item.label}</span>
+                        </div>
+                    ))}
+                </nav>
+
+                {/* Bottom section */}
+                <div style={styles.bottom}>
+                    <div style={styles.darkToggle} onClick={() => setDarkMode(!darkMode)}>
+                        <span>{darkMode ? '☀️ Light mode' : '🌙 Dark mode'}</span>
                         <div style={{
-                            ...styles.toggleThumb,
-                            transform: darkMode ? 'translateX(16px)' : 'translateX(0)'
-                        }} />
-                    </div>
-                </div>
-
-
-                {/* User */}
-                <div style={{ position: 'relative' }}>
-                    <div style={styles.userRow} onClick={() => setShowLogout(!showLogout)}>
-                        <div style={styles.userAvatar}>
-                            {user.email[0].toUpperCase()}
+                            ...styles.toggleTrack,
+                            background: darkMode ? '#4f6ef7' : '#e5e7eb'
+                        }}>
+                            <div style={{
+                                ...styles.toggleThumb,
+                                transform: darkMode ? 'translateX(16px)' : 'translateX(0)'
+                            }} />
                         </div>
-                        <span style={styles.userEmail}>{user.email}</span>
-                        <span style={{
-                            color: 'var(--text-muted)',
-                            fontSize: '10px',
-                            border: '1px solid var(--border)',
-                            borderRadius: '4px',
-                            padding: '1px 4px',
-                        }}>▾</span>
                     </div>
-                    {showLogout && (
-                        <div style={styles.logoutDropdown} onClick={onLogout}>
-                            ⎋ Sign out
+
+                    <div style={{ position: 'relative' }}>
+                        <div style={styles.userRow} onClick={() => setShowLogout(!showLogout)}>
+                            <div style={styles.userAvatar}>
+                                {user.email[0].toUpperCase()}
+                            </div>
+                            <span style={styles.userEmail}>{user.email}</span>
+                            <span style={{
+                                color: 'var(--text-muted)',
+                                fontSize: '10px',
+                                border: '1px solid var(--border)',
+                                borderRadius: '4px',
+                                padding: '1px 4px',
+                            }}>▾</span>
                         </div>
-                    )}
+                        {showLogout && (
+                            <div style={styles.logoutDropdown} onClick={onLogout}>
+                                ⎋ Sign out
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 
@@ -100,7 +130,28 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         padding: '20px 12px',
-        zIndex: 100,
+        zIndex: 300,  // ← higher zIndex for mobile
+    },
+    hamburger: {
+        position: 'fixed',
+        top: '14px',
+        left: '16px',
+        zIndex: 400,
+        background: 'var(--card-bg)',
+        border: '1px solid var(--border)',
+        borderRadius: '8px',
+        padding: '6px 10px',
+        fontSize: '18px',
+        cursor: 'pointer',
+        color: 'var(--text-primary)',
+    },
+    overlay: {
+        position: 'fixed',
+        top: 0, left: 0,
+        width: '100vw',
+        height: '100vh',
+        background: 'rgba(0,0,0,0.4)',
+        zIndex: 200,
     },
     logoWrap: {
         display: 'flex',

@@ -59,3 +59,26 @@ body {
     background: var(--bg-secondary);
     color: var(--text-primary);
 }
+
+/* Mobile breakpoint */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+    }
+
+    .upload-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .stats-row {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .slide-panel {
+        width: 100vw !important;
+    }
+}

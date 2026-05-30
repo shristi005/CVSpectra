@@ -8,8 +8,10 @@ import LoadingPage from './pages/LoadingPage'
 import ResultsPage from './pages/ResultsPage'
 import HistoryPage from './pages/HistoryPage'
 import Sidebar from './components/Sidebar'
+import { useIsMobile } from './utils/useIsMobile'
 
 function App() {
+    const isMobile = useIsMobile()
     const [page, setPage] = useState('upload')
     const [candidates, setCandidates] = useState([])
     const [uploadedData, setUploadedData] = useState(null)
@@ -123,10 +125,23 @@ function App() {
             />
 
             {/* Main content */}
-            <div style={{ marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+
+            <div style={{ marginLeft: isMobile ? '0' : '220px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+
 
                 {/* Top navbar */}
-                <div style={styles.navbar}>
+                <div style={{
+                    background: 'var(--card-bg)',
+                    borderBottom: '1px solid var(--border)',
+                    padding: '14px 28px',
+                    paddingLeft: isMobile ? '60px' : '28px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 10,
+                }}>
                     <span style={styles.navTitle}>
                         {page === 'upload' && 'Upload & Add Job Description'}
                         {page === 'loading' && 'Analyzing...'}
@@ -168,17 +183,6 @@ function App() {
 }
 
 const styles = {
-    navbar: {
-        background: 'var(--card-bg)',
-        borderBottom: '1px solid var(--border)',
-        padding: '14px 28px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        position: 'sticky',
-        top: 0,
-        zIndex: 10,
-    },
     navTitle: {
         fontSize: '16px',
         fontWeight: '600',
