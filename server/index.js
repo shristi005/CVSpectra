@@ -125,7 +125,7 @@ function cosineSimilarity(vecA, vecB) {
     const magnitudeB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0))
     return dotProduct / (magnitudeA * magnitudeB)
 }
-app.get('*', (req, res) => {
+app.get(/.*/, (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist', 'index.html'))
 })
 
