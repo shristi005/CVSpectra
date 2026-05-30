@@ -37,9 +37,7 @@ function HistoryPage({ onSelectScreening, onBack }) {
                     <h1 style={styles.title}>🕓 Screening History</h1>
                     <p style={styles.sub}>Your past resume screenings</p>
                 </div>
-                <button style={styles.backBtn} onClick={onBack}>
-                    ← Back
-                </button>
+
             </div>
 
             {loading && (

@@ -1,13 +1,16 @@
 import express from 'express'
-import cors from 'cors'
+import path from 'path'
 import { model, geminiai, openai } from './config.js'
+import { fileURLToPath } from 'url'
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 const app = express()
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 app.use(express.json({ limit: '50mb' })) // ← allows server to read JSON body
-app.use(cors())                           // ← allows React to talk to server
+app.use(express.static(path.join(__dirname, '../client/dist')))
 
 app.post('/api/analyze', async (req, res) => {
     const { resumes, jd } = req.body
@@ -36,7 +39,7 @@ app.post('/api/analyze', async (req, res) => {
             return {
                 name: resume.name,
                 filename: resume.filename,
-                score:finalScore,
+                score: finalScore,
                 matchingSkills: resume.matchingSkills,
                 missingSkills: resume.missingSkills,
                 experience: resume.experience,
@@ -122,6 +125,9 @@ function cosineSimilarity(vecA, vecB) {
     const magnitudeB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0))
     return dotProduct / (magnitudeA * magnitudeB)
 }
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'))
+})
 
 
 app.listen(5000, () => {

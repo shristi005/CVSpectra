@@ -61,7 +61,21 @@ function LoginPage({ onLogin }) {
         <div style={styles.container}>
             <div style={styles.card}>
                 {/* Logo */}
-                <div style={styles.logo}>📄 CVSpectra</div>
+                <div style={styles.logo}>
+                    <span style={{
+                        fontSize: '28px',
+                        fontWeight: '900',
+                        background: 'linear-gradient(135deg, #4fc3f7, #7c4dff)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        letterSpacing: '-1px',
+                    }}>CV</span>
+                    <span style={{
+                        fontSize: '22px',
+                        fontWeight: '700',
+                        color: '#1a1a2e',
+                    }}>Spectra</span>
+                </div>
                 <p style={styles.tagline}>AI-powered resume screening</p>
 
                 {/* Title */}
@@ -158,21 +172,23 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: '#f4f6f9',
+        background: 'linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%)',
         padding: '24px',
     },
     card: {
-        background: '#fff',
+        background: '#ffffff',
         borderRadius: '20px',
         padding: '48px 40px',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+        boxShadow: '0 8px 40px rgba(79, 110, 247, 0.12)',
         width: '100%',
         maxWidth: '400px',
+        border: '1px solid #e8eeff',
     },
     logo: {
-        fontSize: '24px',
-        fontWeight: '700',
-        textAlign: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '2px',
         marginBottom: '4px',
     },
     tagline: {
@@ -214,7 +230,7 @@ const styles = {
     },
     btn: {
         width: '100%',
-        background: '#2563eb',
+        background: 'linear-gradient(135deg, #4f6ef7, #7c4dff)',
         color: '#fff',
         padding: '12px',
         borderRadius: '10px',
@@ -230,10 +246,11 @@ const styles = {
         textAlign: 'center',
     },
     toggleLink: {
-        color: '#2563eb',
+        color: '#7c4dff',
         fontWeight: '600',
         cursor: 'pointer',
     },
+
 }
 
 export default LoginPage

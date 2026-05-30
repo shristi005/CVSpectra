@@ -14,11 +14,6 @@ function UploadPage({ onStartScreening }) {
 
     return (
         <div style={styles.container}>
-            {/* Header */}
-            <div style={styles.header}>
-                <h1 style={styles.logo}>📄 CVSpectra</h1>
-                <p style={styles.tagline}>AI-powered resume screening & candidate ranking</p>
-            </div>
 
             {/* Main content */}
             <div style={styles.grid}>
@@ -57,24 +52,9 @@ function UploadPage({ onStartScreening }) {
 
 const styles = {
     container: {
-        minHeight: '100vh',
-        padding: '40px 24px',
+        padding: '32px 28px',
         maxWidth: '960px',
         margin: '0 auto',
-    },
-    header: {
-        textAlign: 'center',
-        marginBottom: '40px',
-    },
-    logo: {
-        fontSize: '32px',
-        fontWeight: '700',
-        color: '#1a1a2e',
-    },
-    tagline: {
-        marginTop: '8px',
-        fontSize: '15px',
-        color: '#666',
     },
     grid: {
         display: 'grid',
@@ -82,19 +62,21 @@ const styles = {
         gap: '24px',
     },
     card: {
-        background: '#fff',
+        background: 'var(--card-bg)',
         borderRadius: '16px',
         padding: '24px',
-        boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
+        boxShadow: 'var(--card-shadow)',
+        border: '1px solid var(--border)',
     },
     cardTitle: {
         fontSize: '17px',
         fontWeight: '600',
         marginBottom: '4px',
+        color: 'var(--text-primary)',
     },
     cardSub: {
         fontSize: '13px',
-        color: '#888',
+        color: 'var(--text-secondary)',
         marginBottom: '16px',
     },
     btnWrap: {
@@ -102,13 +84,15 @@ const styles = {
         textAlign: 'center',
     },
     btn: {
-        background: '#2563eb',
+        background: 'linear-gradient(135deg, #4f6ef7, #7c4dff)',
         color: '#fff',
         fontSize: '15px',
         fontWeight: '600',
         padding: '14px 40px',
         borderRadius: '12px',
-        transition: 'background 0.2s',
+        border: 'none',
+        cursor: 'pointer',
+        transition: 'opacity 0.2s',
     },
 }
 

@@ -7,6 +7,7 @@ import UploadPage from './pages/UploadPage'
 import LoadingPage from './pages/LoadingPage'
 import ResultsPage from './pages/ResultsPage'
 import HistoryPage from './pages/HistoryPage'
+import Sidebar from './components/Sidebar'
 
 function App() {
     const [page, setPage] = useState('upload')
@@ -16,6 +17,13 @@ function App() {
     const [user, setUser] = useState(null)
     const [authLoading, setAuthLoading] = useState(true)
     const [historyScreening, setHistoryScreening] = useState(null)
+    const [darkMode, setDarkMode] = useState(false)
+
+
+
+    useEffect(() => {
+        document.body.className = darkMode ? 'dark' : ''
+    }, [darkMode])
 
     // Check if user is already logged in on app load
     useEffect(() => {
@@ -59,7 +67,7 @@ function App() {
 
         try {
             const response = await axios.post(
-                'http://localhost:5000/api/analyze',
+                '/api/analyze',
                 { resumes: resumesWithText, jd: data.jd }
             )
 
@@ -102,90 +110,100 @@ function App() {
 
     // Logged in → show app
     return (
-        <>
-            {/* Navbar with logout */}
-            <div style={styles.navbar}>
-                <span style={styles.navLogo}>📄 CVSpectra</span>
-                <div style={styles.navRight}>
-                    {/* ADD history button here */}
-                    <button style={styles.historyBtn} onClick={() => setPage('history')}>
-                        🕓 History
-                    </button>
-                    <span style={styles.navEmail}>{user.email}</span>
-                    <button style={styles.logoutBtn} onClick={handleLogout}>
-                        Sign out
-                    </button>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-secondary)' }}>
+
+            {/* Sidebar */}
+            <Sidebar
+                page={page}
+                setPage={setPage}
+                darkMode={darkMode}
+                setDarkMode={setDarkMode}
+                user={user}
+                onLogout={handleLogout}
+            />
+
+            {/* Main content */}
+            <div style={{ marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+
+                {/* Top navbar */}
+                <div style={styles.navbar}>
+                    <span style={styles.navTitle}>
+                        {page === 'upload' && 'Upload & Add Job Description'}
+                        {page === 'loading' && 'Analyzing...'}
+                        {page === 'results' && 'Screening Results'}
+                        {page === 'history' && 'Screening History'}
+                    </span>
+
+                </div>
+
+                {/* Page content */}
+                <div style={{ flex: 1 }}>
+                    {page === 'upload' && (
+                        <UploadPage onStartScreening={handleStartScreening} error={error} />
+                    )}
+                    {page === 'loading' && (
+                        <LoadingPage fileCount={uploadedData?.resumes?.length || 0} />
+                    )}
+                    {page === 'results' && (
+                        <ResultsPage
+                            candidates={candidates}
+                            files={uploadedData?.resumes || []}
+                            onReset={handleReset}
+                        />
+                    )}
+                    {page === 'history' && (
+                        <HistoryPage
+                            onSelectScreening={(screening) => {
+                                setCandidates(screening.results)
+                                setUploadedData(null)
+                                setPage('results')
+                            }}
+                            onBack={() => setPage('upload')}
+                        />
+                    )}
                 </div>
             </div>
-
-            {page === 'upload' && (
-                <UploadPage onStartScreening={handleStartScreening} error={error} />
-            )}
-            {page === 'loading' && (
-                <LoadingPage fileCount={uploadedData?.resumes?.length || 0} />
-            )}
-            {page === 'results' && (
-                <ResultsPage
-                    candidates={candidates}
-                    files={uploadedData?.resumes || []}
-                    onReset={handleReset}
-                />
-            )}
-            {page === 'history' && (
-                <HistoryPage
-                    onSelectScreening={(screening) => {
-                        setCandidates(screening.results)
-                        setUploadedData(null)
-                        setPage('results')
-                    }}
-                    onBack={() => setPage('upload')}
-                />
-            )}
-        </>
+        </div>
     )
 }
 
 const styles = {
     navbar: {
-        background: '#fff',
-        borderBottom: '1px solid #eee',
-        padding: '12px 24px',
+        background: 'var(--card-bg)',
+        borderBottom: '1px solid var(--border)',
+        padding: '14px 28px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+        position: 'sticky',
+        top: 0,
+        zIndex: 10,
     },
-    navLogo: {
-        fontSize: '18px',
-        fontWeight: '700',
-        color: '#1a1a2e',
+    navTitle: {
+        fontSize: '16px',
+        fontWeight: '600',
+        color: 'var(--text-primary)',
     },
     navRight: {
         display: 'flex',
         alignItems: 'center',
-        gap: '16px',
+        gap: '12px',
     },
     navEmail: {
         fontSize: '13px',
-        color: '#666',
+        color: 'var(--text-secondary)',
     },
-    logoutBtn: {
-        background: 'none',
-        border: '1px solid #ddd',
-        borderRadius: '8px',
-        padding: '6px 14px',
+    avatar: {
+        width: '32px',
+        height: '32px',
+        borderRadius: '50%',
+        background: '#4f6ef7',
+        color: '#fff',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         fontSize: '13px',
-        cursor: 'pointer',
-        color: '#444',
-    },
-    historyBtn: {
-        background: 'none',
-        border: '1px solid #ddd',
-        borderRadius: '8px',
-        padding: '6px 14px',
-        fontSize: '13px',
-        cursor: 'pointer',
-        color: '#2563eb',
-        fontWeight: '500',
+        fontWeight: '700',
     },
 }
 
