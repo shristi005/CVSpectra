@@ -16,7 +16,11 @@ function Sidebar({ page, setPage, darkMode, setDarkMode, user, onLogout }) {
             {/* Mobile hamburger button */}
             {isMobile && (
                 <button
-                    style={styles.hamburger}
+                    style={{
+                        ...styles.hamburger,
+                        left: menuOpen ? '178px' : '12px',  // ← move X to edge of sidebar
+                        zIndex: 400,
+                    }}
                     onClick={() => setMenuOpen(!menuOpen)}
                 >
                     {menuOpen ? '✕' : '☰'}
@@ -40,7 +44,10 @@ function Sidebar({ page, setPage, darkMode, setDarkMode, user, onLogout }) {
                 transition: 'transform 0.3s ease',
             }}>
                 {/* Logo */}
-                <div style={styles.logoWrap}>
+                <div style={{
+                    ...styles.logoWrap,
+                    paddingLeft: '40px'
+                }}>
                     <span style={{
                         fontSize: '22px',
                         fontWeight: '900',
@@ -130,12 +137,14 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         padding: '20px 12px',
-        zIndex: 300,  // ← higher zIndex for mobile
+        zIndex: 300,
+        paddingBottom: '20px',
+        overflowY: 'auto',
     },
     hamburger: {
         position: 'fixed',
-        top: '14px',
-        left: '16px',
+        top: '12px',
+        left: '12px',
         zIndex: 400,
         background: 'var(--card-bg)',
         border: '1px solid var(--border)',
