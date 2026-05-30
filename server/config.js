@@ -8,6 +8,7 @@ const key = process.env.GEMINI_API_KEY
 const groqKey = process.env.GROQ_API_KEY
 export const model = process.env.MODEL_NAME
 
+
 if (!key) {
     throw new Error("GEMINI_API_KEY is not set in environment variables")
 }
