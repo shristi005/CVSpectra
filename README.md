@@ -229,6 +229,11 @@ CVSpectra/
 
 # Setup Instructions
 
+## Prerequisites
+
+Install Node.js 26.12.1 or newer. The repository includes a `.nvmrc` file for
+version managers that support it.
+
 ## Clone Repository
 
 ```bash
